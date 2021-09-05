@@ -1,0 +1,52 @@
+{
+    "global": {
+        "info": {
+            "name": "No Night Vision Flashing",
+            "author": "vsdum",
+            "version": "1.0",
+            "description": "A mod that removes the flashing effect when night vision effects have less than 10 seconds left",
+            "icon": "src/icon.png"
+        },
+        "api": "CoreEngine"
+    },
+    "make": {
+        "debugAbi": "armeabi-v7a",
+        "abis": [
+            "armeabi-v7a",
+            "x86"
+        ],
+        "linkNative": [
+            "minecraftpe",
+            "innercore",
+            "nativejs"
+        ],
+        "excludeFromRelease": [],
+        "pushTo": "storage/emulated/0/games/horizon/packs/Inner_Core_1/innercore/mods/NoNVFlashingBE",
+        "ndkPath": null
+    },
+    "sources": [
+        {
+            "source": "src/dev",
+            "target": "main.js",
+            "type": "main",
+            "language": "typescript"
+        },
+        {
+            "source": "src/launcher.js",
+            "type": "launcher",
+            "language": "javascript"
+        }
+    ],
+    "compile": [
+        {
+            "source": "src/native/*",
+            "type": "native"
+        }
+    ],
+    "additional": [
+        {
+            "source": "src/assets/root/*",
+            "targetDir": "."
+        }
+    ]
+}

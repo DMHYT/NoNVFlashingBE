@@ -1,0 +1,6 @@
+{
+    "enabled": true,
+    "maxBrightness": 1.0,
+    "fadeOut": true,
+    "fadeTicks": 20
+}

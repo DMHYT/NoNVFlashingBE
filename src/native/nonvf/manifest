@@ -1,0 +1,10 @@
+{
+    "shared": {
+        "name": "nonvf",
+		"include": []
+    },
+    "depends": [
+    	"innercore",
+    	"nativejs"
+	]
+}

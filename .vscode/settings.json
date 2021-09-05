@@ -1,0 +1,11 @@
+{
+    "java.dependency.packagePresentation": "flat",
+    "java.dependency.syncWithFolderExplorer": true,
+    "files.exclude": {
+        "**/__pycache__/**": true,
+        "toolchain/ndk": true,
+        "toolchain/bin": true,
+        "toolchain/adb": true,
+        "toolchain/build/gcc": true
+    }
+}
