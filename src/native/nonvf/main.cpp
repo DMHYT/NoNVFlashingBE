@@ -5,12 +5,37 @@
 #include <nativejs.h>
 #include "config.h"
 
+using namespace HookManager;
+
+class LevelRendererPlayer;
+class MobEffect {
+	public:
+	static const MobEffect NIGHT_VISION;
+};
+class MobEffectInstance {
+	public:
+	int getDuration() const;
+};
+class Actor {
+	public:
+	MobEffectInstance* getEffect(MobEffect const&) const;
+};
+class Mob : public Actor {
+	public:
+};
+
 class MainModule : public Module {
 public:
 	MainModule(const char* id): Module(id) {};
 
 	virtual void initialize() {
-		
+		DLHandleManager::initializeHandle("libminecraftpe.so", "mcpe");
+		HookManager::addCallback(SYMBOL("mcpe", "_ZN19LevelRendererPlayer19getNightVisionScaleERK3Mobf"), LAMBDA((CallbackController* controller, LevelRendererPlayer* lrp, Mob const& mob, float partialTicks), {
+			controller->replace();
+			if(!NoNVFConfig::fadeOut) return NoNVFConfig::maxBrightness;
+			int i = mob.getEffect(MobEffect::NIGHT_VISION)->getDuration();
+			return i > NoNVFConfig::fadeTicks ? NoNVFConfig::maxBrightness : i * NoNVFConfig::fadeRate;
+		}, ), CALL | LISTENER | CONTROLLER | RESULT);
     }
 };
 
