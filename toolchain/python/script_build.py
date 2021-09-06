@@ -17,43 +17,27 @@ def build_source(source_path, target_path):
 
 def build_all_scripts():
 	mod_structure.cleanup_build_target("script_source")
-	mod_structure.cleanup_build_target("script_library")
 	overall_result = 0
 
 	from functools import cmp_to_key
 
-	def libraries_first(a, b):
-		la = a["type"] == "library"
-		lb = b["type"] == "library"
-
-		if la == lb:
-			return 0
-		elif la:
-			return -1
-		else:
-			return 1
-
 	sources = make_config.get_value("sources", fallback=[])
-	sources = sorted(sources, key=cmp_to_key(libraries_first))
 
 	for item in sources:
 		_source = item["source"]
 		_target = item["target"] if "target" in item else None
 		_type = item["type"]
 		_language = item["language"]
-
-		if _type not in ("main", "launcher", "library", "preloader"):
+		if _type not in ("main", "launcher"):
 			print(f"skipped invalid source with type {_type}")
 			overall_result = 1
 			continue
-
 		for source_path in make_config.get_paths(_source):
 			if not exists(source_path):
 				print(f"skipped non-existing source path {_source}")
 				overall_result = 1
 				continue
-
-			target_type = "script_library" if _type == "library" else "script_source"
+			target_type = "script_source"
 			target_path = _target if _target is not None else f"{splitext(basename(source_path))[0]}.js"
 
 			# translate make.json source type to build.config source type
