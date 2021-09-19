@@ -5,8 +5,6 @@
 #include <nativejs.h>
 #include "config.h"
 
-using namespace HookManager;
-
 class LevelRendererPlayer;
 class MobEffect {
 	public:
@@ -35,12 +33,12 @@ public:
 			if(!NoNVFConfig::fadeOut) return NoNVFConfig::maxBrightness;
 			int i = mob.getEffect(MobEffect::NIGHT_VISION)->getDuration();
 			return i > NoNVFConfig::fadeTicks ? NoNVFConfig::maxBrightness : i * NoNVFConfig::fadeRate;
-		}, ), CALL | LISTENER | CONTROLLER | RESULT);
+		}, ), HookManager::CALL | HookManager::LISTENER | HookManager::CONTROLLER | HookManager::RESULT);
     }
 };
 
 MAIN {
-	Module* main_module = new MainModule("sample_library");
+	Module* main_module = new MainModule("nonvf");
 }
 
 JS_MODULE_VERSION(NoNVFConfigJS, 1);
