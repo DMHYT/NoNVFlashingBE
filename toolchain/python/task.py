@@ -308,12 +308,16 @@ def task_download_ndk_if_needed():
 @task("cleanupOutput")
 def task_cleanup_output():
 	def clean(p):
-		folders = [f for f in list(os.walk(p))[1:] if os.path.exists(f[0])]
-		for folder in folders:
-			if not folder[2]:
-				os.rmdir(folder[0])
-			else:
-				clean(folder[0])
+		_walk = lambda: [f for f in list(os.walk(p))[1:] if os.path.exists(f[0])]
+		for folder in _walk():
+			if len(folder[2]) > 0:
+				continue
+			if len(folder[1]) > 0:
+				for subfolder in folder[1]:
+					clean(os.path.join(folder[0], subfolder))
+				for folder2 in _walk():
+					if len(folder2[1]) == 0 and len(folder2[2]) == 0:
+						os.rmdir(folder2[0])
 	path = make_config.get_path("output")
 	if os.path.exists(path):
 		clean(path)
@@ -322,7 +326,7 @@ def task_cleanup_output():
 @task("updateIncludes")
 def task_update_includes():
 	from functools import cmp_to_key
-	import mod_structure
+	from mod_structure import mod_structure
 	from includes import Includes, temp_directory
 	def libraries_first(a, b):
 		la = a["type"] == "library"
@@ -338,7 +342,7 @@ def task_update_includes():
 		_source = item["source"]
 		_target = item["target"] if "target" in item else None
 		_type = item["type"]
-		if _type not in ("main", "launcher", "library", "preloader"):
+		if _type not in ("main", "library", "preloader"):
 			print(f"skipped invalid source with type {_type}")
 			continue
 		for source_path in make_config.get_paths(_source):
@@ -349,7 +353,6 @@ def task_update_includes():
 			declare = {
 				"sourceType": {
 					"main": "mod",
-					"launcher": "launcher",
 					"preloader": "preloader",
 					"library": "library"
 				}[_type]
@@ -364,6 +367,7 @@ def task_update_includes():
 			mod_structure.update_build_config_list("compile")
 			incl = Includes.invalidate(source_path)
 			incl.create_tsconfig(os.path.join(temp_directory, os.path.basename(target_path)))
+	return 0
 
 @task("connectToADB")
 def task_connect_to_adb():
