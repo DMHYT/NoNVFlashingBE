@@ -28,7 +28,7 @@ public:
 
 	virtual void initialize() {
 		DLHandleManager::initializeHandle("libminecraftpe.so", "mcpe");
-		HookManager::addCallback(SYMBOL("mcpe", "_ZN19LevelRendererPlayer19getNightVisionScaleERK3Mobf"), LAMBDA((CallbackController* controller, LevelRendererPlayer* lrp, Mob const& mob, float partialTicks), {
+		HookManager::addCallback(SYMBOL("mcpe", "_ZN19LevelRendererPlayer19getNightVisionScaleERK3Mobf"), LAMBDA((HookManager::CallbackController* controller, LevelRendererPlayer* lrp, Mob const& mob, float partialTicks), {
 			controller->replace();
 			if(!NoNVFConfig::fadeOut) return NoNVFConfig::maxBrightness;
 			int i = mob.getEffect(MobEffect::NIGHT_VISION)->getDuration();
