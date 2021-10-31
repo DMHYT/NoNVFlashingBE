@@ -13,9 +13,9 @@
         ".idea/**": true,
         "toolchain/ndk": true,
         "toolchain/stdincludes": true,
-        //"toolchain/classpath": true,
-        //"toolchain/bin": true,
-        //"toolchain/adb": true,
+        "toolchain/classpath": true,
+        "toolchain/bin": true,
+        "toolchain/adb": true,
         "toolchain/build/gcc": true,
         "toolchain/build/gradle": true,
         "toolchain/build/lock": true,
@@ -27,6 +27,9 @@
         "*.vertex": "glsl",
         "*.material": "json",
         "*.uniforms": "json",
-        "typeinfo": "cpp"
+        "typeinfo": "cpp",
+        "cinttypes": "cpp",
+        "numeric": "cpp",
+        "cstdint": "cpp"
     }
 }

@@ -1,4 +1,6 @@
-const NoNVFConfig = WRAP_NATIVE("NoNVFConfigJS");
-NoNVFConfig.setMaxBrightness(Math.min(Math.max(__config__.getNumber("maxBrightness").floatValue(), 0.0), 1.0));
-NoNVFConfig.setFadeOutEnabled(__config__.getBool("fadeOut"));
-NoNVFConfig.setFadeTicks(__config__.getNumber("fadeTicks").intValue());
+(() => {
+    const NoNVF = WRAP_NATIVE("NoNVF");
+    NoNVF.setMaxBrightness(Math.min(Math.max(__config__.getFloat("maxBrightness"), 0.0), 1.0));
+    NoNVF.setFadeOutEnabled(__config__.getBool("fadeOut"));
+    NoNVF.setFadeTicks(__config__.getInteger("fadeTicks"));
+})()
